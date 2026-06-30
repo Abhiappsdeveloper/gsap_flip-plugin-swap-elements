@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Flip Plugin swap elements</title>
+    <link href='//fonts.googleapis.com/css?family=Signika+Negative:300,400,600' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' href='https://codepen.io/GreenSock/pen/xxmzBrw.css'>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        p {
+            margin-top: 1rem;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100px;
+            width: 100%;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+        }
+
+        button {
+            margin: 2rem 0.5rem;
+        }
+    </style>
+
+</head>
+
+<body>
+    <button class="button">Swop element positions</button>
+    <div class="container">
+        <div class="square box gradient-blue" id="sq1">1</div>
+        <div class="square box gradient-pink" id="sq2">2</div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js'></script>
+    <script src='https://assets.codepen.io/16327/Flip.min.js?v=3.6.0.beta20'></script>
+    <script>
+        gsap.registerPlugin(Flip);
+
+        const squares = gsap.utils.toArray(".square");
+
+        function doFlip() {
+            // Get the initial state
+            const state = Flip.getState(squares);
+
+            // Make DOM or styling changes (swap the squares in our case)
+            swap(squares);
+
+            // Animate from the initial state to the end state
+            Flip.from(state, { duration: 2, ease: "power1.inOut" });
+        }
+
+        // Given an Array of two siblings, append the one that's first so it's last (swap)
+        function swap([a, b]) {
+            a.parentNode.children[0] === a ? a.parentNode.appendChild(a) : a.parentNode.appendChild(b);
+        }
+
+        // click to flip
+        document.querySelector(".button").addEventListener("click", doFlip);
+    </script>
+
+</body>
+
+</html>
